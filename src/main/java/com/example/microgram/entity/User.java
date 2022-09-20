@@ -7,7 +7,6 @@ package com.example.microgram.entity;
 import lombok.Data;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.UUID;
 
 @Data
@@ -17,7 +16,7 @@ public class User {
     private String profile;
     private String email;
     private String password;
-    private String subscriptionOn;       //На кого подписался
+    private User subscriptionOn;                  //На кого подписался
     private Integer countInfo;
     private LocalDateTime subWhen;                //Когда подписался
 
@@ -26,7 +25,6 @@ public class User {
         this.profile = profile;
         this.email = email;
         this.password = password;
-        this.subscriptionOn = subscriptionOn;
         this.countInfo = countInfo;
     }
 }
