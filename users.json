@@ -3,35 +3,35 @@
     "id": 0,
     "profile": "name1",
     "email": "14@.kg",
-    "password" : "000a",
+    "password": "000a",
     "countInfo": 0
   },
-
-  { "id": 0,
+  {
+    "id": 0,
     "profile": "name2",
     "email": "16@.kg",
-    "password" : "000b",
+    "password": "000b",
     "countInfo": 0
   },
-
-  { "id": 0,
+  {
+    "id": 0,
     "profile": "name3",
     "email": "18@.kg",
-    "password" : "000c",
+    "password": "000c",
     "countInfo": 0
   },
-
-  { "id": 0,
+  {
+    "id": 0,
     "profile": "name4",
     "email": "20@.kg",
-    "password" : "000d",
+    "password": "000d",
     "countInfo": 0
   },
-
-  { "id": 0,
+  {
+    "id": 0,
     "profile": "name5",
     "email": "22@.kg",
-    "password" : "000e",
+    "password": "000e",
     "countInfo": 0
   }
 ]

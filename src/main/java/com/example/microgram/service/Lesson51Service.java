@@ -1,5 +1,6 @@
 package com.example.microgram.service;
 
+import com.example.microgram.entity.Comment;
 import com.example.microgram.entity.Publication;
 import com.example.microgram.entity.User;
 import com.example.microgram.homework51.DataBaseConnect;
@@ -107,7 +108,7 @@ public class Lesson51Service {
 
                 Publication publication = new Publication();
 
-                publication.setId(rs.getInt("id"));
+                publication.setId(rs.getInt(1));
                 publication.setUserId(rs.getInt("user_id"));
                 publication.setDescription(rs.getString("description"));
 
@@ -116,6 +117,103 @@ public class Lesson51Service {
                 throw new SQLException();
             }
         } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public User userAuto(String email, String password) {
+
+        try {
+            String SQL = "select * from microgram where email = ?";
+            PreparedStatement statement = dbService.getConnection().prepareStatement(SQL);
+            statement.setString(1, email);
+
+            User user = null;
+
+            if (statement.execute()) {
+                ResultSet rs = statement.executeQuery();
+                rs.next();
+
+                Integer id = rs.getInt(1);
+                String name = rs.getString(2);
+                String profile = rs.getString(3);
+                String emailResult = rs.getString(4);
+                String passwordResult = rs.getString(5);
+
+                if (password.equals(passwordResult)) {
+
+                    user = new User(id, name, profile, emailResult, passwordResult);
+                }
+
+                return user;
+            } else {
+                throw new SQLException();
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public Publication addPublication(Publication publication) {
+
+        try {
+            String SQL = "insert into publication_m (user_id, link, description) values (?, ?, ?)";
+            PreparedStatement statement = dbService.getConnection().prepareStatement(SQL);
+            statement.setInt(1, publication.getUserId());
+            statement.setString(2, publication.getLink());
+            statement.setString(3, publication.getDescription());
+
+            statement.execute();
+            //Добавлю LocalDateTime
+
+//            User user = null;
+//
+//            if (statement.execute()) {
+//                ResultSet rs = statement.executeQuery();
+//                rs.next();
+//
+//                Integer id = rs.getInt(1);
+//                String name = rs.getString(2);
+//                String profile = rs.getString(3);
+//                String emailResult = rs.getString(4);
+//                String passwordResult = rs.getString(5);
+//
+//                if (password.equals(passwordResult)) {
+//
+//                    user = new User(id, name, profile, emailResult, passwordResult);
+//                }
+//
+//                return user;
+//            } else {
+//                throw new SQLException();
+//            }
+
+            return publication;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /*
+    Метод для добавления комментария
+     */
+    public Comment getComment(Comment com) {
+        try {
+//            String SQL = "select user_m.name, publication_m.link from user_m join user_publication\n" +
+//                    "    on user_m.user_id = user_publication.user_id join publication_m\n" +
+//                    "on user_publication.publication_id = publication_m.publication_id;";
+            String SQL = "integer into comment(comment) values (?)";
+            PreparedStatement statement = dbService.getConnection().prepareStatement(SQL);
+            statement.setString(1, com.getText());
+
+            statement.execute();
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
@@ -155,13 +253,6 @@ public class Lesson51Service {
                     ResultSet.CONCUR_UPDATABLE
             );
 
-//            ResultSet resultSet = statement.executeQuery("select * from customers");
-//            resultSet.moveToInsertRow();
-//            resultSet.updateLong("id", 3L);
-//            resultSet.updateString("name", "John");
-//            resultSet.updateInt("age", 18);
-//            resultSet.insertRow();
-//            resultSet.moveToCurrentRow();
         } catch (SQLException e) {
             e.printStackTrace();
         }

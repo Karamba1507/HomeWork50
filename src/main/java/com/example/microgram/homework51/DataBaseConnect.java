@@ -1,6 +1,8 @@
 package com.example.microgram.homework51;
 
+import freemarker.core.Environment;
 import lombok.Getter;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
 import java.sql.Connection;
@@ -9,8 +11,10 @@ import java.sql.SQLException;
 
 @Service
 @Getter
+@PropertySource("application.properties")
 public class DataBaseConnect {
     private Connection connection;
+    //private Environment environment;
 
     public DataBaseConnect() {
         try {

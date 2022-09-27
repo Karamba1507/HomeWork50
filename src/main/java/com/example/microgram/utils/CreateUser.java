@@ -14,7 +14,7 @@ import java.util.List;
 @Service
 public class CreateUser {
 
-     DataBaseConnect dbService;
+    DataBaseConnect dbService;
 
     public List<User> index() {
         List<User> users = new ArrayList<>();
@@ -40,9 +40,8 @@ public class CreateUser {
 
     public void saveUser(User user) {
         try {
-            PreparedStatement ps = dbService.getConnection().prepareStatement("" +
-                    "insert into microgram values(1,?,?,?)");
-            ps.setString(1,user.getName());
+            PreparedStatement ps = dbService.getConnection().prepareStatement("insert into microgram values(1,?,?,?)");
+            ps.setString(1, user.getName());
             ps.setString(2, user.getProfile());
             ps.setString(3, user.getEmail());
 
@@ -55,20 +54,20 @@ public class CreateUser {
     public User show(String name) {
         User user = null;
         try {
-        PreparedStatement ps = dbService.getConnection().prepareStatement("" +
-                "select *from microgram where name=?");
+            PreparedStatement ps = dbService.getConnection().prepareStatement("" +
+                    "select * from microgram where name=?");
 
-        ps.setString(1, name);
+            ps.setString(1, name);
 
-        ResultSet rs = ps.executeQuery();
+            ResultSet rs = ps.executeQuery();
 
-        rs.next();
+            rs.next();
 
-        user = new User();
+            user = new User();
 
-        user.setName(rs.getString("name"));
-        user.setProfile(rs.getString("profile"));
-        user.setEmail(rs.getString("email"));
+            user.setName(rs.getString("name"));
+            user.setProfile(rs.getString("profile"));
+            user.setEmail(rs.getString("email"));
 
         } catch (SQLException e) {
             e.printStackTrace();

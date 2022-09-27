@@ -2,24 +2,22 @@ package com.example.microgram.controller;
 
 import com.example.microgram.entity.Publication;
 import com.example.microgram.entity.User;
+import com.example.microgram.entity.UserAuth;
 import com.example.microgram.homework51.DataBaseConnect;
 import com.example.microgram.service.Lesson51Service;
-import com.example.microgram.utils.CreateUser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController(value = "/")
 @RequiredArgsConstructor
 public class Lesson51Controller {
     private final DataBaseConnect dbService;
     private final Lesson51Service service;
-    private final CreateUser createUser;
+
 
     @GetMapping(value = "/connect")
     public ResponseEntity<String> getConnection() {
@@ -97,6 +95,47 @@ public class Lesson51Controller {
             e.printStackTrace();
         }
 
+        return new ResponseEntity<>("Error", HttpStatus.BAD_REQUEST);
+    }
+
+
+
+    @PostMapping(value = "/userAutorizaton")
+    public ResponseEntity<String> autorisation(@RequestBody String body) {
+        try {
+
+            UserAuth userAuth = new ObjectMapper().readValue(body, UserAuth.class);
+
+            if (userAuth.getEmail() != null) {
+
+                final User us = service.userAuto(userAuth.getEmail(), userAuth.getPassword());
+                String responseBody = new ObjectMapper().writeValueAsString(us);
+                return new ResponseEntity<>(responseBody, HttpStatus.OK);
+
+            } else {
+                return new ResponseEntity<>("No one parameter found", HttpStatus.BAD_REQUEST);
+            }
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>("Error", HttpStatus.BAD_REQUEST);
+    }
+
+    @PostMapping(value = "/addPublication")
+    public ResponseEntity<String> addPublication(@RequestBody String body) {
+        try {
+
+            Publication publication = new ObjectMapper().readValue(body, Publication.class);
+
+            final Publication result = service.addPublication(publication);
+
+            String responseBody = new ObjectMapper().writeValueAsString(result);
+
+            return new ResponseEntity<>(responseBody, HttpStatus.OK);
+
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
         return new ResponseEntity<>("Error", HttpStatus.BAD_REQUEST);
     }
 
